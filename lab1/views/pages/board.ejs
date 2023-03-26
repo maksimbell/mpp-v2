@@ -35,7 +35,7 @@
 	</header>
 
 	<main class="columns">
-		<div class="column university-column">
+		<!-- <div class="column university-column">
 			<h3 class="column__name">University</h3>
 
 			<div class="cards column__cards">
@@ -133,81 +133,9 @@
 			</div>
 
 			<div class="add-card column__add-card">+ Add another card</div>
-		</div>
+		</div> -->
 
-		<div class="column university-column">
-			<h3 class="column__name">Next column</h3>
-
-			<div class="cards column__cards">
-				<div class="card clickable-card">
-					<p class="card__content">
-						Lorem ipsum dolor sit amet consectetur adipisicing
-						elit. Iste, vel.
-					</p>
-					<a class="clickable-card__link" href="edit.html"></a>
-				</div>
-
-				<div class="card clickable-card">
-					<p class="card__content">
-						Lorem ipsum dolor, sit amet consectetur adipisicing
-						elit. Repellat sequi vitae, ipsa nihil alias modi in
-						voluptatibus at ad optio?
-					</p>
-					<a class="clickable-card__link" href="edit.html"></a>
-				</div>
-
-				<div class="card clickable-card">
-					<p class="card__content">
-						Lorem ipsum dolor sit amet consectetur adipisicing
-						elit. Quos deleniti consequuntur fugiat mollitia
-						laborum nostrum quo est. Ipsa officia, veritatis
-						adipisci error id non sit neque molestias architecto
-						odit! Eos!
-					</p>
-					<a class="clickable-card__link" href="edit.html"></a>
-				</div>
-
-				<div class="card clickable-card">
-					<p class="card__content">
-						Lorem ipsum dolor sit amet.
-					</p>
-					<a class="clickable-card__link" href="edit.html"></a>
-				</div>
-
-				<div class="card clickable-card">
-					<p class="card__content">
-						Lorem ipsum, dolor sit amet consectetur adipisicing
-						elit. Fugiat, tenetur?
-					</p>
-					<a class="clickable-card__link" href="edit.html"></a>
-				</div>
-
-				<% cards.forEach((card, index) => { %>
-				<div class="card clickable-card">
-					<p class="card__content">
-						<%= card.content %>
-					</p>
-					<a class="clickable-card__link" href="/board/:<%= index %>"></a>
-				</div>
-				<% }); %>
-
-				<div class="clickable-card">
-					<form action="/board" method="POST" enctype="multipart/form-data">
-						<textarea class="card card__content input__add-card" type="text" name="content"
-							placeholder="Enter heading"></textarea>
-						<input class="button__add-card" value="Add card" type="submit" />
-						<label class="input-file">
-							<input type="file" name="file" id="file_input_1">
-							<span id="file_span_1">Choose file</span>
-						</label>
-					</form>
-				</div>
-			</div>
-
-			<!-- <div class="add-card column__add-card">+ Add another card</div> -->
-		</div>
-
-		<div class="column university-column">
+		<!-- <div class="column university-column">
 			<h3 class="column__name">University</h3>
 
 			<div class="cards column__cards"></div>
@@ -215,13 +143,61 @@
 			<div class="add-card column__add-card">
 				+ Add first card
 			</div>
-		</div>
+		</div> -->
 
-		<div class="create-column">
-			<div class="add-card create-column__add-card">
-				+ Add new column
+		<% columns.forEach((column, colIndex) => { %>
+			<div class="column university-column">
+				<h3 class="column__name"><%= column.name %></h3>
+
+				<div class="cards column__cards">
+
+					<% column.cards.forEach((card, index) => { %>
+						<div class="card clickable-card">
+							<p class="card__content">
+								<%= card.content %>
+							</p>
+							<% if (card.file) { %>
+								<p><a href="/files/<%= card.file.name %>" download="">Attached file</a></p>
+							<% } %>
+							<a class="clickable-card__link" href="/board/open-card/:<%= index %>"></a>
+						</div>
+					<% }); %>
+
+					<div class="clickable-card">
+						<form action="/board/add-card/<%= colIndex %>" method="POST" enctype="multipart/form-data">
+							<textarea class="card card__content input__add-card" type="text" name="content"
+								placeholder="Enter heading"></textarea>
+							<input class="button__add-card" value="Add card" type="submit" />
+							<label class="input-file">
+								<input type="file" name="uploaded" id="file_input_1">
+								<span id="file_span_1">Choose file</span>
+							</label>
+						</form>
+					</div>
+				</div>
+
+				<!-- <div class="add-card column__add-card">+ Add another card</div> -->
 			</div>
-		</div>
+		<% }); %>
+
+		<!-- create-column -->
+		<% if ( 1 == 1) { %>
+			<div class="column">
+				<div class="clickable-card">
+					<form action="/board/add-column" method="POST">
+						<textarea class="card card__content input__add-card" type="text" name="columnName"
+							placeholder="Enter column name"></textarea>
+						<input class="button__add-card" value="Add column" type="submit" />
+					</form>
+				</div>
+			</div>
+		<%} else {%>
+			<div class="create-column">
+				<div class="add-card create-column__add-card">
+					+ Add new column
+				</div>
+			</div>
+		<% } %>
 
 	</main>
 </body>

@@ -8,13 +8,12 @@ app.use(express.static("public"));
 app.use(express.urlencoded({
     extended: true
 }))
+
 app.use(fileUpload({
     createParentPath: true
 }));
 
 app.set("view engine", "ejs");
-
-const cards = []
 
 app.get("/", (req, res) => {
     res.render("pages/index");
@@ -25,27 +24,51 @@ app.get("/my-boards", (req, res) => {
 });
 
 app.get("/board", (req, res) => {
-    res.render("pages/board", {cards: cards});
+    res.render("pages/board", {
+        columns: columns
+    });
 });
 
 app.get("/about", (req, res) => {
     res.render("pages/about");
 });
 
-app.post('/board', (req, res) => {
-    console.log(req.files)
+app.post('/board/add-card/:id', (req, res) => {
+    const file = req.files?.uploaded
+    console.log(file)
+
+    if (file)
+        file.mv('./public/files/' + file.name)
 
     const newCard = {
-        columnId: 1,
         content: req.body.content,
-        files: req.files,
+        file,
     }
 
-    cards.push(newCard)
-    res.render("pages/board", {cards: cards});
+    const columnId = req.params.id
+    columns[columnId].cards.push(newCard)
+
+    res.redirect('/board')
     res.end()
-    
-    console.log(cards)
+})
+
+app.post('/board/add-column', (req, res) => {
+
+    const newColumn = {
+        name: req.body.columnName,
+        cards: []
+    }
+
+    columns.push(newColumn)
+
+    res.redirect('/board')
+    res.end()
 })
 
 app.listen(port, () => console.log(`Listening on ${port}`));
+
+
+const columns = [{
+    name: 'First column',
+    cards: [],
+}]
