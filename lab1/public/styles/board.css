@@ -429,3 +429,7 @@ h4 {
 .input-file input[type=file]:disabled + span {
 	background-color: #eee;
 }
+
+.download-file {
+    padding: 20;
+}

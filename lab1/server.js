@@ -49,7 +49,6 @@ app.post('/board/add-card/:id', (req, res) => {
     columns[columnId].cards.push(newCard)
 
     res.redirect('/board')
-    res.end()
 })
 
 app.post('/board/add-column', (req, res) => {
@@ -62,7 +61,6 @@ app.post('/board/add-column', (req, res) => {
     columns.push(newColumn)
 
     res.redirect('/board')
-    res.end()
 })
 
 app.listen(port, () => console.log(`Listening on ${port}`));
@@ -70,5 +68,15 @@ app.listen(port, () => console.log(`Listening on ${port}`));
 
 const columns = [{
     name: 'First column',
-    cards: [],
+    cards: [
+        {
+            content: 'Smth1',
+        },
+        {
+            content: 'Smth2',
+        },
+        {
+            content: 'Smth3',
+        }
+    ],
 }]

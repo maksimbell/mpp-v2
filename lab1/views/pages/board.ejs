@@ -157,9 +157,9 @@
 								<%= card.content %>
 							</p>
 							<% if (card.file) { %>
-								<p><a href="/files/<%= card.file.name %>" download="">Attached file</a></p>
+								<a class="card__content download-file" href="/files/<%= card.file.name %>" download="">Attached file</a>
 							<% } %>
-							<a class="clickable-card__link" href="/board/open-card/:<%= index %>"></a>
+							<a class="clickable-card__link" href="/board/open-card/<%= index %>"></a>
 						</div>
 					<% }); %>
 
@@ -180,8 +180,7 @@
 			</div>
 		<% }); %>
 
-		<!-- create-column -->
-		<% if ( 1 == 1) { %>
+		<% if ( 1 == 1 ) { %>
 			<div class="column">
 				<div class="clickable-card">
 					<form action="/board/add-column" method="POST">
@@ -195,6 +194,7 @@
 			<div class="create-column">
 				<div class="add-card create-column__add-card">
 					+ Add new column
+					<a class="clickable-card__link" href="/board/focus-column"></a>
 				</div>
 			</div>
 		<% } %>
