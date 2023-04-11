@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Board</title>
+	<link rel="stylesheet" href="styles/board.css" />
+	<script src="https://kit.fontawesome.com/7af8546ce5.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+	<script src="/scripts/script.js" defer></script>
+	<header class="header">
+		<nav class="nav header-nav">
+			<ul class="nav__list nav-menu header-main">
+				<li class="nav-menu__item header-main-nav__item">
+					<a href="my-boards.html" class="nav-menu__link header-main-nav__link header__link">
+						<i class="fas fa-home"></i>
+						<span class="hidden-text">Home</span>
+					</a>
+				</li>
+				<li class="nav-menu__item header-main-nav__item">
+					<a href="board.html" class="nav-menu__link header-main-nav__link header__link">
+						<i class="fab fa-trello"></i>
+						<span class="hidden-text">Boards</span>
+					</a>
+				</li>
+			</ul>
+
+			<div class="zentask nav__logo">
+				<span class="zentask__text">ZenTask</span>
+			</div>
+		</nav>
+	</header>
+
+	<main class="columns">
+
+		<!-- <% columns.forEach((column, colIndex) => { %>
+			<div class="column university-column">
+				<h3 class="column__name"><%= column.name %></h3>
+
+				<div class="cards column__cards">
+
+					<% column.cards.forEach((card, index) => { %>
+						<div class="card clickable-card">
+							<p class="card__content">
+								<%= card.content %>
+							</p>
+							<% if (card.file) { %>
+								<a class="card__content download-file" href="/files/<%= card.file.name %>" download="">Attached file</a>
+							<% } %>
+							<a class="clickable-card__link" href="/board/open-card/<%= index %>"></a>
+						</div>
+					<% }); %>
+
+					<div class="clickable-card">
+						<form action="/board/add-card/<%= colIndex %>" method="POST" enctype="multipart/form-data">
+							<textarea class="card card__content input__add-card" type="text" name="content"
+								placeholder="Enter heading"></textarea>
+							<input class="button__add-card" value="Add card" type="submit" />
+							<label class="input-file">
+								<input type="file" name="uploaded" id="file_input_1">
+								<span id="file_span_1">Choose file</span>
+							</label>
+						</form>
+					</div>
+				</div>
+
+				<div class="add-card column__add-card">+ Add another card</div>
+			</div>
+		<% }); %> -->
+
+		<!-- <% if ( 1 == 1 ) { %>
+			<div class="column">
+				<div class="clickable-card">
+					<form action="/board/add-column" method="POST">
+						<textarea class="card card__content input__add-card" type="text" name="columnName"
+							placeholder="Enter column name"></textarea>
+						<input class="button__add-card" value="Add column" type="submit" />
+					</form>
+				</div>
+			</div>
+		<%} else {%>
+			<div class="create-column">
+				<div class="add-card create-column__add-card">
+					+ Add new column
+					<a class="clickable-card__link" href="/board/focus-column"></a>
+				</div>
+			</div>
+		<% } %> -->
+
+	</main>
+</body>
+
+</html>
