@@ -402,6 +402,7 @@ h4 {
 }
 
 .button__add-card {
+    /* width: 100px; */
     background: #0e9ef1;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
@@ -432,4 +433,8 @@ h4 {
 
 .download-file {
     padding: 20;
+}
+
+.myBtn {
+    z-index: 1000;
 }

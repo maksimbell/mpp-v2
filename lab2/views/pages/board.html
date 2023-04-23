@@ -34,63 +34,7 @@
 		</nav>
 	</header>
 
-	<main class="columns">
-
-		<!-- <% columns.forEach((column, colIndex) => { %>
-			<div class="column university-column">
-				<h3 class="column__name"><%= column.name %></h3>
-
-				<div class="cards column__cards">
-
-					<% column.cards.forEach((card, index) => { %>
-						<div class="card clickable-card">
-							<p class="card__content">
-								<%= card.content %>
-							</p>
-							<% if (card.file) { %>
-								<a class="card__content download-file" href="/files/<%= card.file.name %>" download="">Attached file</a>
-							<% } %>
-							<a class="clickable-card__link" href="/board/open-card/<%= index %>"></a>
-						</div>
-					<% }); %>
-
-					<div class="clickable-card">
-						<form action="/board/add-card/<%= colIndex %>" method="POST" enctype="multipart/form-data">
-							<textarea class="card card__content input__add-card" type="text" name="content"
-								placeholder="Enter heading"></textarea>
-							<input class="button__add-card" value="Add card" type="submit" />
-							<label class="input-file">
-								<input type="file" name="uploaded" id="file_input_1">
-								<span id="file_span_1">Choose file</span>
-							</label>
-						</form>
-					</div>
-				</div>
-
-				<div class="add-card column__add-card">+ Add another card</div>
-			</div>
-		<% }); %> -->
-
-		<!-- <% if ( 1 == 1 ) { %>
-			<div class="column">
-				<div class="clickable-card">
-					<form action="/board/add-column" method="POST">
-						<textarea class="card card__content input__add-card" type="text" name="columnName"
-							placeholder="Enter column name"></textarea>
-						<input class="button__add-card" value="Add column" type="submit" />
-					</form>
-				</div>
-			</div>
-		<%} else {%>
-			<div class="create-column">
-				<div class="add-card create-column__add-card">
-					+ Add new column
-					<a class="clickable-card__link" href="/board/focus-column"></a>
-				</div>
-			</div>
-		<% } %> -->
-
-	</main>
+	<main class="columns"></main>
 </body>
 
 </html>
