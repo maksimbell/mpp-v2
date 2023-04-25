@@ -1,16 +1,15 @@
 const columnSelector = document.querySelector('.columns')
 
-async function getBoard() {
+function getBoard() {
 
-    const res = await fetch('board/columns', {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-        }
-    })
-
-    if (res.ok) {
-        res.json().then(board => {
+    fetch('board/columns', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        })
+        .then(res => res.json())
+        .then(board => {
             console.log(board)
             for (let col of board.columns) {
                 columnSelector.appendChild(newColumn(col))
@@ -29,7 +28,6 @@ async function getBoard() {
 
             addListeners()
         })
-    }
 }
 
 function newColumn(data) {
@@ -64,8 +62,12 @@ function newColumn(data) {
             placeholder="Enter heading"></textarea>
         <input id="${data.id}" class="button__add-card" value="Add card" type="submit"/>
         <label class="input-file">
-            <input type="file" name="uploaded" id="file_input_1">
-            <span id="file_span_1">Choose file</span>
+            <input type="file" name="uploaded" id="file_input_${data.id}">
+            <span class="file-span" id="file_span_${data.id}">Choose file</span>
+        </label>
+        <label class="input_delete-column">
+            <input type="button" name="deleteCol">
+            <span id="deleteCol${data.id}">Delete</span>
         </label>`
 
     formDiv.appendChild(form)
@@ -74,68 +76,90 @@ function newColumn(data) {
     return container
 }
 
-async function addCard(e) {
+function addCard(e) {
     const id = e.target.id.slice(4, e.target.id.length)
-    const form = document.querySelector(`#form${id}`)
 
     const currentColumn = document.querySelector(`#col${id}`)
     console.log(currentColumn)
+    console.log(e.target.uploaded.files[0] || null)
 
-    const card = {
-        id,
-        content: form.content.value,
-    }
+    const formData = new FormData()
+    formData.append('id', id)
+    formData.append('content', e.target.content.value)
+    formData.append('file', e.target.uploaded.files[0])
 
-    form.reset();
-    currentColumn.insertBefore(newCard(card), currentColumn.children[currentColumn.children.length - 1])
-
-    const res = await fetch("board/card", {
-        method: "POST",
-        // x-www-form-urlencoded
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(card)
-    });
-
-    if (res.ok === true) {
-        const user = await response.json();
-    }
+    fetch("board/card", {
+            method: "PUT",
+            // headers: {
+            //     "Content-Type": "multipart/form-data",
+            // },
+            body: formData,
+        })
+        .then(res => res.json())
+        .then(card => {
+            e.target.reset()
+            currentColumn.insertBefore(newCard(card), currentColumn.children[currentColumn.children.length - 1])
+        })
+        .catch(err => console.log(err))
 }
 
-async function addColumn(e) {
+function addColumn(e) {
+    const id = columnSelector.children.length < 2 ? 'col-1' : columnSelector.lastChild.previousSibling.id
+    const newId = 1 + +id.slice(3, id.length)
 
-    const column = {
-        id: columnSelector.children.length - 1,
-        name: e.target.columnName.value,
-        cards: [],
-    }
-    console.log(column)
+    const formData = new FormData()
+    formData.append('id', newId)
+    formData.append('name', e.target.columnName.value)
 
-    e.target.reset();
-    columnSelector.insertBefore(newColumn(column), columnSelector.children[columnSelector.children.length - 1])
+    // const column = {
+    //     id: newId,
+    //     name: e.target.columnName.value,
+    //     cards: [],
+    // }
 
-    const res = await fetch("board/column", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(column)
-    });
-
-    if (res.ok === true) {
-        const user = await response.json();
-    }
+    fetch("board/column", {
+            method: "POST",
+            // headers: {
+            //     "Content-Type": "application/json"
+            // },
+            body: formData,
+        })
+        .then(res => res.json())
+        .then(column => {
+            e.target.reset()
+            columnSelector.insertBefore(newColumn(column), columnSelector.children[columnSelector.children.length - 1])
+            addListeners()
+        })
+        .catch(err => console.log(err))
 }
+
+function deleteColumn(e) {
+    const id = e.target.id.slice(9, e.target.id.length)
+
+    fetch(`board/column/${id}`, {
+            method: "DELETE"
+        })
+        .then(res => {
+            if (res.ok) {
+                columnSelector.removeChild(columnSelector.querySelector(`#col${id}`))
+            } else {
+                console.log(res.status)
+            }
+        })
+}
+
 
 function newCard(card) {
     const container = document.createElement('div')
     container.classList.add('clickable-card')
     container.classList.add('card')
 
-    container.innerHTML += `<a class="clickable-card__link" href="/board/open-card/${card.id}"></a>`
-    if (card.file)
-        container.innerHTML += `<a class="card__content download-file" href="/files/${card.file}" download="">Attached file</a>`
+    container.innerHTML += `<a class="clickable-card__link"></a>`
+
+    if (card.file) {
+        container.innerHTML += `<a class="card__content download-file" href="/files/${card.file.originalname}" download="">Attached file</a>`
+        console.log(card.file)
+    }
 
     const name = document.createElement('p')
     name.classList.add('card__content')
@@ -147,23 +171,51 @@ function newCard(card) {
 
 function addListeners() {
     const forms = document.querySelectorAll('.cardForm')
-    console.log(forms)
 
-    for (let form of forms) {
-        console.log(form)
-        form.addEventListener('submit', (e) => {
-            e.preventDefault()
-            console.log('neq card submitted')
-            addCard(e)
-        })
+    for (const form of forms) {
+        form.removeEventListener('submit', addCardCallback)
+        form.addEventListener('submit', addCardCallback)
     }
 
     const newColumnForm = document.querySelector('.newColumnForm')
-    newColumnForm.addEventListener('submit', (e) => {
-        e.preventDefault()
-        console.log('new column submitted')
-        addColumn(e)
-    })
+    newColumnForm.removeEventListener('submit', addColumnCallback)
+    newColumnForm.addEventListener('submit', addColumnCallback)
+
+    const deleteBtns = document.querySelectorAll('.input_delete-column')
+
+    for (const btn of deleteBtns) {
+        btn.removeEventListener('click', deleteColumnCallback)
+        btn.addEventListener('click', deleteColumnCallback)
+    }
+
+
+    const fileInputs = document.querySelectorAll('.input-file input[type=file]')
+    const fileSpans = document.querySelectorAll('.file-span')
+
+    for (let i = 0; i < fileInputs.length; i++) {
+        fileInputs[i].addEventListener('change', () => {
+            const file = fileInputs[i].files[0]
+            fileSpans[i].innerText = file.name.length < 9 ? file.name : file.name.slice(0, 7).padEnd(10, '.')
+        })
+    }
+}
+
+function addCardCallback(e) {
+    e.preventDefault()
+    console.log('new card')
+    addCard(e)
+}
+
+function addColumnCallback(e) {
+    e.preventDefault()
+    console.log('new column')
+    addColumn(e)
+}
+
+function deleteColumnCallback(e) {
+    e.preventDefault()
+    console.log('column delete')
+    deleteColumn(e)
 }
 
 getBoard()

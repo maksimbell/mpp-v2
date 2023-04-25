@@ -1,15 +1,14 @@
 import express from 'express';
-import fileUpload from 'express-fileupload'
 import path from 'path'
 import bodyParser from 'body-parser'
+import multer from 'multer'
 import fs from 'fs'
 
 const app = express();
-const jsonParser = express.json();
+
 const port = 3000;
 
 app.use(express.static('public'));
-const filePath = 'data.json'
 app.use(bodyParser.json());
 app.use(express.urlencoded({
     extended: true
@@ -17,9 +16,10 @@ app.use(express.urlencoded({
 
 app.use(express.json())
 
-app.use(fileUpload({
-    createParentPath: true
-}));
+
+const upload = multer({
+    dest: "public/files/"
+});
 
 app.listen(port, () => console.log(`Listening on ${port}`));
 
@@ -36,25 +36,62 @@ app.get("/board/", (req, res) => {
 
 app.get('/board/columns', (req, res) => {
     const board = data
-    res.send(board)
+    res.status(200).send(board)
 })
 
-app.post('/board/card', (req, res) => {
-    const id = +req.body.id
-    //e.target
-    const newCard = {
-        id: data.columns[id].cards.length,
-        content: req.body.content,
-    }
+app.put('/board/card', upload.single('file'), (req, res) => {
+    try {
+        const id = +req.body.id
+        const file = req.file
 
-    data.columns[id].cards.push(newCard)
+        if (file) {
+            const oldPath = req.file.path
+            const newPath = `public/files/${req.file.originalname}`
+
+            fs.rename(oldPath, newPath, (err) => {
+                if (err)
+                    console.error(err)
+            })
+        }
+
+        const newCard = {
+            id: data.columns[id].cards.length,
+            content: req.body.content,
+            file,
+        }
+
+        data.columns[id].cards.push(newCard)
+        res.status(200).json(newCard)
+    } catch (err) {
+        res.sendStatus(500)
+    }
 })
 
-app.post('/board/column', (req, res) => {
-    const newColumn = {
-        ...req.body
+app.post('/board/column', upload.none(), (req, res) => {
+    try {
+        const newColumn = {
+            ...req.body,
+            cards: []
+        }
+        console.log(newColumn)
+
+        data.columns.push(newColumn)
+        res.status(200).json(newColumn)
+    } catch (err) {
+        console.log(err)
+        res.sendStatus(500)
     }
-    data.columns.push(newColumn)
+})
+
+app.delete('/board/column/:id', (req, res) => {
+    try {
+        const id = +req.params.id
+        data.columns = data.columns.filter(col => col.id != id)
+        res.sendStatus(200)
+    } catch (err) {
+        console.log(err)
+        res.sendStatus(500)
+    }
 })
 
 const data = {
