@@ -10,13 +10,13 @@ const pool = mysql.createPool({
     password: process.env.DB_PASSWORD,
 })
 
-let sql = "SELECT * FROM user"
+// let sql = "SELECT * FROM user"
 
-pool.execute(sql, (err, res) => {
-    if (err)
-        throw err
+// pool.execute(sql, (err, res) => {
+//     if (err)
+//         throw err
 
-    console.log(res)
-})
+//     console.log(res)
+// })
 
-// module.exports = pool.promise()
+export default pool.promise()

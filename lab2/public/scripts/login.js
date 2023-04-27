@@ -3,17 +3,16 @@ console.log(form)
 
 form.addEventListener('submit', (e) => {
     e.preventDefault()
-    register(e)
+    login(e)
 })
 
-function register(e) {
+function login(e) {
 
     const formData = new FormData()
     formData.append('login', e.target.login.value)
     formData.append('password', e.target.psw.value)
 
-    console.log(formData)
-    fetch("register", {
+    fetch("login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
