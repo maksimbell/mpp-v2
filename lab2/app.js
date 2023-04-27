@@ -3,6 +3,8 @@ import path from 'path'
 import bodyParser from 'body-parser'
 import multer from 'multer'
 import fs from 'fs'
+import data from './data.js'
+
 
 const app = express();
 
@@ -23,7 +25,22 @@ const upload = multer({
 
 app.listen(port, () => console.log(`Listening on ${port}`));
 
-app.get("/board/", (req, res) => {
+app.get("/register", (req, res) => {
+    try {
+        res.status(200).sendFile(path.resolve(path.dirname("."), 'views', 'pages', 'register.html'))
+    } catch (e) {
+        console.log(e)
+        res.status(400).json({
+            message: 'Get error'
+        })
+    }
+})
+
+app.post("/register", function (request, response) {
+    response.redirect("/board")
+});
+
+app.get("/board", (req, res) => {
     try {
         res.status(200).sendFile(path.resolve(path.dirname("."), 'views', 'pages', 'board.html'))
     } catch (e) {
@@ -93,29 +110,3 @@ app.delete('/board/column/:id', (req, res) => {
         res.sendStatus(500)
     }
 })
-
-const data = {
-    name: "First board",
-    columns: [{
-            id: 0,
-            name: "First column",
-            cards: [{
-                    id: 0,
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                },
-                {
-                    id: 1,
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit orem ipsum dolor sit amet, consectetur adipiscing elitorem ipsum dolor sit amet, consectetur adipiscing elit"
-                }
-            ]
-        },
-        {
-            id: 1,
-            name: "Second column",
-            cards: [{
-                id: 0,
-                content: "Lorem ipsum fdsghgffdghfgddolor sit amsfddsfdsffsfsfdsfdsfdsfdsfdset, consectetur adipiscing elit."
-            }]
-        }
-    ]
-}
