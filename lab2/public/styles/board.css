@@ -544,3 +544,14 @@ h4 {
 .input_delete-column span {
     background-color: #d81d1d;
 }
+
+
+.header-main__right {
+    margin-left: 1200px;
+}
+
+/* .header-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+} */

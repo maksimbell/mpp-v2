@@ -5,7 +5,7 @@ function getBoard() {
     fetch('board/columns', {
             method: 'GET',
             headers: {
-                'Accept': 'application/json',
+                "Content-Type": "application/json",
             }
         })
         .then(res => res.json())
@@ -218,4 +218,8 @@ function deleteColumnCallback(e) {
     deleteColumn(e)
 }
 
-getBoard()
+try {
+    getBoard()
+}catch(err){
+    console.log(err)
+}

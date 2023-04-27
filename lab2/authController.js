@@ -41,15 +41,6 @@ const register = async (req, res) => {
             })
         }
 
-        // await promisePool.end(err => {
-        //     if (err) {
-        //         console.log(err)
-        //         return err
-        //     } else {
-        //         console.log('DB closed succesfuly')
-        //     }
-        // })
-
     } catch (e) {
         console.warn(e)
     }
@@ -90,15 +81,6 @@ const login = async (req, res) => {
                 })
             }
         }
-
-        // await promisePool.end(err => {
-        //     if (err) {
-        //         console.log(err)
-        //         return err
-        //     } else {
-        //         console.log('DB closed succesfuly')
-        //     }
-        // })
     } catch (e) {
         console.warn(e)
     }

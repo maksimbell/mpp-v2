@@ -15,7 +15,7 @@ const upload = multer({
     dest: "public/files/"
 });
 
-router.get("/board", authMiddleware, controller.getPage)
+router.get("/board", controller.getPage)
 router.get("/board/columns", authMiddleware, controller.getBoard)
 router.put("/board/card", authMiddleware, upload.single('file'), controller.addCard)
 router.post("/board/column", authMiddleware, upload.none(), controller.addColumn)
