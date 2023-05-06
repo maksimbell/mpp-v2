@@ -16,7 +16,7 @@ export default function (req, res, next) {
         }
         if (!token) {
             res.status(401).json({
-                message: 'You are not logged in, please log in to your account'
+                message: 'You are not logged in, please log in to your account' 
             })
             // res.redirect(401, '/login')
             // res.status(401).location('/login').end();
