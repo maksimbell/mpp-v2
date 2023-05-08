@@ -4,7 +4,37 @@ const socket = io()
 function getBoard() {
     console.log('get board')
     socket.emit('board:get')
+
     socket.on('board:get', getBoardHandler)
+}
+
+function addCard(e) {
+    const id = e.target.id.slice(4, e.target.id.length)
+
+    const currentColumn = document.querySelector(`#col${id}`)
+    console.log(currentColumn)
+    console.log(e.target.uploaded.files[0] || null)
+
+    // const formData = new FormData()
+    // formData.append('id', id)
+    // formData.append('content', e.target.content.value)
+    // formData.append('file', e.target.uploaded.files[0])
+
+    const card = {
+        id,
+        content: e.target.content.value,
+        file: e.target.uploaded.files[0]
+    }
+
+    socket.emit('board:addCard', card)
+    e.target.reset()
+    //вынести
+    socket.on('board:addCard', (card) => {
+        const id = e.target.id.slice(4, e.target.id.length)
+
+        const currentColumn = document.querySelector(`#col${id}`)
+        currentColumn.insertBefore(newCard(card), currentColumn.children[currentColumn.children.length - 1])
+    })
 }
 
 function newColumn(data) {
@@ -51,33 +81,6 @@ function newColumn(data) {
     container.appendChild(formDiv)
 
     return container
-}
-
-function addCard(e) {
-    const id = e.target.id.slice(4, e.target.id.length)
-
-    const currentColumn = document.querySelector(`#col${id}`)
-    console.log(currentColumn)
-    console.log(e.target.uploaded.files[0] || null)
-
-    const formData = new FormData()
-    formData.append('id', id)
-    formData.append('content', e.target.content.value)
-    formData.append('file', e.target.uploaded.files[0])
-
-    fetch("board/card", {
-            method: "PUT",
-            // headers: {
-            //     "Content-Type": "multipart/form-data",
-            // },
-            body: formData,
-        })
-        .then(res => res.json())
-        .then(card => {
-            e.target.reset()
-            currentColumn.insertBefore(newCard(card), currentColumn.children[currentColumn.children.length - 1])
-        })
-        .catch(err => console.log(err))
 }
 
 function addColumn(e) {

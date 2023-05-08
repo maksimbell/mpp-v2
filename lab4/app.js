@@ -13,7 +13,9 @@ import registerBoardHandlers from './boardHandler.js'
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server)
+const io = new Server(server, {
+    maxHttpBufferSize: 1e8
+})
 
 app.use(express.static("public"));
 const port = 3000;
