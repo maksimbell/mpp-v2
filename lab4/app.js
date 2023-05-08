@@ -3,13 +3,12 @@ import path from 'path'
 import bodyParser from 'body-parser'
 import multer from 'multer'
 import fs from 'fs'
-import mainRouter from './routers/mainRouter.js'
 // import authRouter from './routers/authRouter.js'
 import http from 'http'
 import {
     Server
 } from 'socket.io'
-import registerBoardHandlers from './boardHandler.js'
+import registerBoardHandlers from './handlers/boardHandler.js'
 
 const app = express();
 const server = http.createServer(app);
@@ -25,9 +24,9 @@ app.get('/board', (req, res) => {
 });
 
 const onConnection = (socket) => {
-    console.log('a user connected');
+    console.log('connected');
     socket.on('disconnect', () => {
-        console.log('user disconnected');
+        console.log('disconnected');
     });
 
     registerBoardHandlers(io, socket)

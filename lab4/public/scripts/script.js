@@ -1,24 +1,20 @@
 const columnSelector = document.querySelector('.columns')
 const socket = io()
 
+socket.on('board:get', getBoardHandler)
+socket.on('board:addCard', addCardHandler)
+socket.on('board:addColumn', addColumnHandler)
+socket.on('board:deleteColumn', deleteColumnHandler)
+
 function getBoard() {
     console.log('get board')
     socket.emit('board:get')
-
-    socket.on('board:get', getBoardHandler)
 }
 
 function addCard(e) {
     const id = e.target.id.slice(4, e.target.id.length)
 
     const currentColumn = document.querySelector(`#col${id}`)
-    console.log(currentColumn)
-    console.log(e.target.uploaded.files[0] || null)
-
-    // const formData = new FormData()
-    // formData.append('id', id)
-    // formData.append('content', e.target.content.value)
-    // formData.append('file', e.target.uploaded.files[0])
 
     const card = {
         id,
@@ -28,13 +24,6 @@ function addCard(e) {
 
     socket.emit('board:addCard', card)
     e.target.reset()
-    //вынести
-    socket.on('board:addCard', (card) => {
-        const id = e.target.id.slice(4, e.target.id.length)
-
-        const currentColumn = document.querySelector(`#col${id}`)
-        currentColumn.insertBefore(newCard(card), currentColumn.children[currentColumn.children.length - 1])
-    })
 }
 
 function newColumn(data) {
@@ -87,36 +76,18 @@ function addColumn(e) {
     const id = columnSelector.children.length < 2 ? 'col-1' : columnSelector.lastChild.previousSibling.id
     const newId = 1 + +id.slice(3, id.length)
 
-    const formData = new FormData()
-    formData.append('id', newId)
-    formData.append('name', e.target.columnName.value)
+    const column = {
+        id: newId,
+        name: e.target.columnName.value
+    }
 
-    fetch("board/column", {
-            method: "POST",
-            body: formData,
-        })
-        .then(res => res.json())
-        .then(column => {
-            e.target.reset()
-            columnSelector.insertBefore(newColumn(column), columnSelector.children[columnSelector.children.length - 1])
-            addListeners()
-        })
-        .catch(err => console.log(err))
+    socket.emit('board:addColumn', column)
+    e.target.reset()
 }
 
 function deleteColumn(e) {
     const id = e.target.id.slice(9, e.target.id.length)
-
-    fetch(`board/column/${id}`, {
-            method: "DELETE"
-        })
-        .then(res => {
-            if (res.ok) {
-                columnSelector.removeChild(columnSelector.querySelector(`#col${id}`))
-            } else {
-                console.log(res.status)
-            }
-        })
+    socket.emit('board:deleteColumn', id)
 }
 
 
@@ -213,4 +184,22 @@ function getBoardHandler(board) {
     </div>`
 
     addListeners()
+}
+
+function addCardHandler(card) {
+    const id = card.colId
+    console.log(id)
+
+    const currentColumn = document.querySelector(`#col${id}`)
+    currentColumn.insertBefore(newCard(card), currentColumn.children[currentColumn.children.length - 1])
+}
+
+function addColumnHandler(column) {
+    console.log(column)
+    columnSelector.insertBefore(newColumn(column), columnSelector.children[columnSelector.children.length - 1])
+    addListeners()
+}
+
+function deleteColumnHandler(columnId) {
+    columnSelector.removeChild(columnSelector.querySelector(`#col${columnId}`))
 }
