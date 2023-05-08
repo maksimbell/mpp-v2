@@ -24,7 +24,7 @@ app.get('/board', (req, res) => {
 });
 
 const onConnection = (socket) => {
-    console.log('connected');
+    console.log('Connection now authenticated to receive further events');
     socket.on('disconnect', () => {
         console.log('disconnected');
     });
@@ -32,21 +32,17 @@ const onConnection = (socket) => {
     registerBoardHandlers(io, socket)
 }
 
-io.on('connection', onConnection);
-
-// app.use(express.static('public'));
-// app.use(bodyParser.json());
-// app.use(express.urlencoded({
-//     extended: true
-// }))
-
-// app.use(express.json())
-
-// const upload = multer({
-//     dest: "public/files/"
-// });
-
-// app.use('/', mainRouter)
-// app.use('/', authRouter)
+io.use((socket, next) => {
+    // if (socket.handshake.query && socket.handshake.query.token) {
+    //     jwt.verify(socket.handshake.query.token, 'SECRET_KEY', function (err, decoded) {
+    //         if (err) return next(new Error('Authentication error'));
+    //         socket.decoded = decoded;
+    //         next();
+    //     });
+    // } else {
+    //     next(new Error('Authentication error'));
+    // }
+    next()
+}).on('connection', onConnection);
 
 server.listen(port, () => console.log(`Listening on ${port}`));

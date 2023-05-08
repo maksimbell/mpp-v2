@@ -12,6 +12,7 @@
 <body>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/scripts/script.js" defer></script>
+	<script src="/scripts/modal.js" defer></script>
 	<header class="header">
 		<nav class="nav header-nav">
 			<ul class="nav__list nav-menu header-main header-main__left">
@@ -35,13 +36,13 @@
 
 			<ul class="nav__list nav-menu header-main header-main__right">
 				<li class="nav-menu__item header-main-nav__item">
-					<a href="/register" class="nav-menu__link header-main-nav__link header__link">
+					<a id="regBtn" href="#" class="nav-menu__link header-main-nav__link header__link">
 						<!-- <i class="fas fa-home"></i> -->
 						<span class="hidden-text">Sign up</span>
 					</a>
 				</li>
 				<li class="nav-menu__item header-main-nav__item">
-					<a href="/login" class="nav-menu__link header-main-nav__link header__link">
+					<a id="logBtn" href="#" class="nav-menu__link header-main-nav__link header__link">
 						<!-- <i class="fab fa-trello"></i> -->
 						<span class="hidden-text">Log in</span>
 					</a>
@@ -51,6 +52,45 @@
 	</header>
 
 	<main class="columns"></main>
+	<div id="regModal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<form class="register-form" method="POST">
+				<div class="column">
+					<h1>Sign up</h1>
+					<label for="login">Login</label>
+					<input type="text" placeholder="Enter login" name="login" id="login" required>
+					<label for="psw">Password</label>
+					<input type="password" placeholder="Enter password" name="psw" id="psw" required>
+					<button type="submit" class="registerbtn button__add-card">Register</button>
+				</div>
+				<!-- <div class="container signin">
+					<p>Already have an account? <a href="/login">Sign in</a>.</p>
+				</div> -->
+			</form>
+		</div>
+
+	</div>
+
+	<div id="logModal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<form class="register-form" method="POST">
+				<div class="column">
+					<h1>Sign in</h1>
+					<label for="login">Login</label>
+					<input type="text" placeholder="Enter login" name="login" id="login" required>
+					<label for="psw">Password</label>
+					<input type="password" placeholder="Enter password" name="psw" id="psw" required>
+					<button type="submit" class="registerbtn button__add-card">Log in</button>
+				</div>
+				<!-- <div class="container signin">
+					<p>No account? <a href="/register">Sign up</a>.</p>
+				</div> -->
+			</form>
+		</div>
+
+	</div>
 </body>
 
 </html>

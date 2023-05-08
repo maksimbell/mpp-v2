@@ -1,5 +1,6 @@
 const form = document.querySelector('.register-form')
 console.log(form)
+const socket = io()
 
 form.addEventListener('submit', (e) => {
     e.preventDefault()
@@ -18,7 +19,7 @@ function login(e) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                login: e.target.login.value, 
+                login: e.target.login.value,
                 password: e.target.psw.value,
             }),
         })

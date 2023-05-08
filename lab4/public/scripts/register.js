@@ -1,5 +1,8 @@
 const form = document.querySelector('.register-form')
 console.log(form)
+const socket = io()
+
+socket.on('auth:register', registerHandler)
 
 form.addEventListener('submit', (e) => {
     e.preventDefault()
@@ -8,25 +11,16 @@ form.addEventListener('submit', (e) => {
 
 function register(e) {
 
-    const formData = new FormData()
-    formData.append('login', e.target.login.value)
-    formData.append('password', e.target.psw.value)
+    const newUser = {
+        login: e.target.login.value,
+        password: e.target.psw.value
+    }
 
-    console.log(formData)
-    fetch("register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                login: e.target.login.value, 
-                password: e.target.psw.value,
-            }),
-        })
-        .then(res => res.json())
-        .then(data => {
-            e.target.reset()
-            console.log(data)
-        })
-        .catch(err => console.log(err))
+    socket.emit('auth:register', newUser)
+    e.target.reset()
+}
+
+function registerHandler(user) {
+    if (user)
+        console.log('registered')
 }
