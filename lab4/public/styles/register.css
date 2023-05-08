@@ -1,0 +1,596 @@
+@font-face {
+    font-family: myfont;
+    src: url(../fonts/chowfun.ttf);
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #0067a3;
+    color: #fff;
+}
+
+.header__link {
+    color: #fff;
+}
+
+.nav {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.nav__list {
+    z-index: 10;
+}
+
+.nav__logo {
+    display: inline-block;
+    position: absolute;
+    margin: 0 auto;
+    right: 0;
+    left: 0;
+    text-align: center;
+    z-index: 0;
+}
+
+.nav-menu {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    padding: 3px;
+}
+
+.nav-menu__item {
+    margin-right: 3px;
+}
+
+.nav-menu__item-last {
+    margin-left: auto;
+}
+
+.nav-menu__item-last:last-child {
+    margin-left: unset;
+}
+
+.nav-menu__link {
+    display: inline-block;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.nav-menu__link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transition: 0.1s linear;
+}
+
+@media screen and (max-width: 600px) {
+    .hidden-text {
+        position: absolute;
+        clip: rect(0 0 0 0);
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+    }
+}
+
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+html {
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+}
+
+main {
+    display: block;
+}
+
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+hr {
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+}
+
+pre {
+    font-family: monospace, monospace;
+    font-size: 1em;
+}
+
+a {
+    background-color: transparent;
+}
+
+abbr[title] {
+    border-bottom: none;
+    text-decoration: underline;
+    text-decoration: underline dotted;
+}
+
+b,
+strong {
+    font-weight: bolder;
+}
+
+code,
+kbd,
+samp {
+    font-family: monospace, monospace;
+    font-size: 1em;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+sup {
+    top: -0.5em;
+}
+
+img {
+    border-style: none;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
+}
+
+button,
+input {
+    overflow: visible;
+}
+
+button,
+select {
+    text-transform: none;
+}
+
+[type="button"],
+[type="reset"],
+[type="submit"],
+button {
+    -webkit-appearance: button;
+}
+
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner,
+button::-moz-focus-inner {
+    border-style: none;
+    padding: 0;
+}
+
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring,
+button:-moz-focusring {
+    outline: 1px dotted ButtonText;
+}
+
+fieldset {
+    padding: 0.35em 0.75em 0.625em;
+}
+
+legend {
+    box-sizing: border-box;
+    color: inherit;
+    display: table;
+    max-width: 100%;
+    padding: 0;
+    white-space: normal;
+}
+
+progress {
+    vertical-align: baseline;
+}
+
+textarea {
+    overflow: auto;
+}
+
+[type="checkbox"],
+[type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+    height: auto;
+}
+
+[type="search"] {
+    -webkit-appearance: textfield;
+    outline-offset: -2px;
+}
+
+[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    font: inherit;
+}
+
+details {
+    display: block;
+}
+
+summary {
+    display: list-item;
+}
+
+template {
+    display: none;
+}
+
+[hidden] {
+    display: none;
+}
+
+@font-face {
+    font-family: myfont;
+    src: url(../fonts/chowfun.ttf);
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+html {
+    min-height: 100%;
+}
+
+html {
+    background: #fafbfc;
+}
+
+body {
+    position: relative;
+    color: #000;
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue,
+        sans-serif;
+    height: 100vh;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:active,
+:focus,
+:hover {
+    outline: 0;
+    outline-offset: 0;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+h1 {
+    font-size: 20px;
+}
+
+h4 {
+    font-size: 1em;
+}
+
+.zentask__logo {
+    width: 100px;
+    height: 100px;
+}
+
+.zentask__text {
+    letter-spacing: 2px;
+    font-family: myfont;
+}
+
+.columns {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow-x: visible;
+    overflow-y: auto;
+    padding: 10px;
+    padding-top: 60px;
+    background: #0079bf;
+    height: 100vh;
+}
+
+.add-card {
+    padding: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.1s linear;
+    text-decoration: none;
+}
+
+.add-card:hover {
+    background: rgba(200, 200, 200, 0.7);
+}
+
+.create-column {
+    flex: 0 0 auto;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    width: 250px;
+}
+
+.create-column__name {
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+
+.create-column__add-card {
+    padding: 10px;
+    color: #fff;
+}
+
+.create-column__add-card:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    position: relative;
+    max-height: 100%;
+    padding: 10px;
+    width: 300px;
+    margin-right: 10px;
+    background: #ebecf0;
+    border-radius: 3px;
+}
+
+.column__cards {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 4px;
+}
+
+.column__name {
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+
+.column__add-card {
+    margin-top: 10px;
+}
+
+.clickable-card {
+    position: relative;
+}
+
+.clickable-card__link {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.card {
+    margin-bottom: 10px;
+    border-radius: 3px;
+    transition: background 0.1s linear;
+    background: #fff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    word-wrap: break-word;
+}
+
+.card:hover {
+    background: #f2f2f2;
+}
+
+.card__content {
+    padding: 5px;
+}
+
+.card:last-child {
+    margin-bottom: 0;
+}
+
+.input__add-card {
+    overflow: auto;
+    width: 100%;
+    resize: vertical;
+    outline: none;
+    border: none;
+    min-height: 25px;
+}
+
+.button__add-card:hover {
+    cursor: pointer;
+    background: rgba(0, 57, 164, 0.7);
+}
+
+.input-file,
+.input_delete-column {
+    position: relative;
+    display: inline-block;
+}
+
+.input-file,
+.input_delete-column span,
+.button__add-card {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none;
+    font-size: 14px;
+    vertical-align: middle;
+    color: rgb(255 255 255);
+    text-align: center;
+    border-radius: 4px;
+    background-color: #419152;
+    line-height: 22px;
+    height: 40px;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    border: none;
+    margin: 0;
+    transition: background-color 0.2s;
+}
+
+.button__add-card {
+    /* width: 100px; */
+    background: #0e9ef1;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.input-file input[type=file],
+.input_delete-column input[type=button] {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    display: block;
+    width: 0;
+    height: 0;
+}
+
+.input-file input[type=file]:focus+span {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
+
+.input-file:hover,
+.input_delete-column:hover span {
+    background-color: #59be6e;
+}
+
+.input-file:active,
+.input_delete-column:active span {
+    background-color: #2E703A;
+}
+
+.input-file input[type=file]:disabled+span {
+    background-color: #eee;
+}
+
+.download-file {
+    padding: 20;
+    position: relative;
+}
+
+.myBtn {
+    z-index: 1000;
+}
+
+.input_delete-column span {
+    width: 85px;
+}
+
+.form-container {
+    display: flex;
+}
+
+
+.input_delete-column:active span {
+    background-color: #a82c2c;
+}
+
+.input_delete-column:hover span {
+    background-color: #fc4747;
+}
+
+.input_delete-column span {
+    background-color: #d81d1d;
+}
+
+.col {
+    padding: 50px;
+    width: 400px;
+}
+
+.columns {
+    display: flex;
+    justify-content: space-around;
+}
+
+.register-form {
+    margin-top: 100px;
+}
+
+input[type=text],
+input[type=password],
+textarea {
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+    border: 1px solid rgb(174, 209, 255);
+}
+
+input[type=text]:focus,
+input[type=password]:focus {
+    background-color: rgb(228, 228, 228);
+    outline: none;
+}
+
+.registerbtn {
+    border-radius: 5px;
+    padding: 10px;
+    border-width: 1px;
+    /* background-color: #59be6e; */
+}
+
+.registerbtn:focus {
+    background-color: rgb(228, 228, 228);
+    outline: none;
+}
+
+.signin {
+    padding: 10px;
+    font-weight: 600;
+}
