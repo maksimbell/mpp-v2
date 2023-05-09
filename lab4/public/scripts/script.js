@@ -1,5 +1,6 @@
 const columnSelector = document.querySelector('.columns')
 const socket = io()
+window.socket = socket
 
 socket.on('board:get', getBoardHandler)
 socket.on('board:addCard', addCardHandler)

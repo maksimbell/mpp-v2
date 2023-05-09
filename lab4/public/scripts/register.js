@@ -1,10 +1,8 @@
-const form = document.querySelector('.register-form')
-console.log(form)
-const socket = io()
-
+const regForm = document.querySelector('.register-form')
+console.log(window.socket)
 socket.on('auth:register', registerHandler)
 
-form.addEventListener('submit', (e) => {
+regForm.addEventListener('submit', (e) => {
     e.preventDefault()
     register(e)
 })

@@ -1,32 +1,29 @@
-const form = document.querySelector('.register-form')
-console.log(form)
-const socket = io()
+const logForm = document.querySelector('.login-form')
+socket.on('auth:login', loginHandler)
 
-form.addEventListener('submit', (e) => {
+logForm.addEventListener('submit', (e) => {
     e.preventDefault()
     login(e)
 })
 
 function login(e) {
 
-    const formData = new FormData()
-    formData.append('login', e.target.login.value)
-    formData.append('password', e.target.psw.value)
+    const user = {
+        login: e.target.logLogin.value,
+        password: e.target.logPsw.value
+    }
+    
+    console.log('sent')
+    socket.emit('auth:login', user)
+}
 
-    fetch("login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                login: e.target.login.value,
-                password: e.target.psw.value,
-            }),
-        })
-        .then(res => res.json())
-        .then(data => {
-            e.target.reset()
-            console.log(data)
-        })
-        .catch(err => console.log(err))
+function loginHandler(token) {
+    console.log('token is ready on client')
+    socket.auth = {
+        token
+    }
+
+    socket.emit('wtf', 'smth')
+    // socket.disconnect()
+    // socket.socket.connect()
 }

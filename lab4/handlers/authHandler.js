@@ -4,69 +4,80 @@ import {
     writeFile
 } from "fs";
 import data from '../data.js'
+import bcrypt from "bcrypt";
+import promisePool from '../config/db.js'
+import jwt from 'jsonwebtoken'
+
+const generateToken = (id, role) => {
+    return jwt.sign({
+        id,
+    }, 'SECRET_KEY', {
+        expiresIn: '24h'
+    })
+}
 
 export default (io, socket) => {
-    // const getLogin = () => socket.emit('auth:getLogin')
-    // const getRegister = () => socket.emit('auth:getRegister')
+    const login = async (user) => {
+        try {
+            const {
+                login,
+                password
+            } = user
 
-    const login = (card) => {
-        console.log(card)
-        const id = card.id
-        const file = card.file
-        console.log(file)
+            console.log(user)
+            let query = `select * from user where login = '${login}'`
+            let [rows, fields] = await promisePool.query(query)
 
-        const newCard = {
-            id: data.columns[id].cards.length,
-            ...card
+            if (rows.length > 0) {
+
+                const validPassword = bcrypt.compareSync(password, rows[0].passwordHash)
+                if (validPassword) {
+                    console.log(rows[0].id)
+                    // const token = generateToken(rows[0].id)
+                    const token = 'secretToken'
+                    socket.emit('auth:login', token)
+                    console.log('success')
+                } else {
+                    console.log('user not found')
+                }
+            }
+        } catch (e) {
+            console.warn(e)
         }
-
-        data.columns[id].cards.push(newCard)
-        socket.emit('board:addCard', {
-            colId: id,
-            ...newCard
-        })
     }
 
-    const register = (user) => {
+    const register = async (user) => {
         try {
 
-            let query = `select * from user where login = '${user.login}'`
-
+            const {
+                login,
+                password
+            } = user
+            let query = `select * from user where login = '${login}'`
             let [rows, fields] = await promisePool.query(query)
             console.log(rows.length)
 
             if (rows.length == 0) {
-                let hashPassword = bcrypt.hashSync(user.password, 5)
-
-                query = `INSERT INTO user(passwordHash, login) VALUES ('${hashPassword}', '${user.login}')`;
+                let hashPassword = bcrypt.hashSync(password, 5)
+                query = `INSERT INTO user(passwordHash, login) VALUES ('${hashPassword}', '${login}')`;
 
                 [rows, fields] = await promisePool.query(query)
 
-                res.status(200).json({
-                    message: 'work'
-                })
+                // res.status(200).json({
+                //     message: 'work'
+                // })
             } else {
-                res.status(400).json({
-                    message: 'User with this login already exist'
-                })
+                // res.status(400).json({
+                //     message: 'User with this login already exist'
+                // })
             }
 
         } catch (e) {
             console.warn(e)
         }
-
-        socket.emit('auth:register', {
-            login: user.login,
-        })
-    }
-
-    const deleteColumn = (id) => {
-        data.columns = data.columns.filter(col => col.id != id)
-        socket.emit('board:deleteColumn', id)
+        console.log('registered!')
     }
 
     socket.on('auth:register', register)
     socket.on('auth:login', login)
-    socket.on('auth:getRegister', getRegister)
-    socket.on('auth:getLogin', getLogin)
 }

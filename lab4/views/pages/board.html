@@ -13,6 +13,8 @@
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/scripts/script.js" defer></script>
 	<script src="/scripts/modal.js" defer></script>
+	<script src="/scripts/login.js" defer></script>
+	<script src="/scripts/register.js" defer></script>
 	<header class="header">
 		<nav class="nav header-nav">
 			<ul class="nav__list nav-menu header-main header-main__left">
@@ -59,9 +61,9 @@
 				<div class="column">
 					<h1>Sign up</h1>
 					<label for="login">Login</label>
-					<input type="text" placeholder="Enter login" name="login" id="login" required>
+					<input type="text" placeholder="Enter login" name="login" id="regLogin" required>
 					<label for="psw">Password</label>
-					<input type="password" placeholder="Enter password" name="psw" id="psw" required>
+					<input type="password" placeholder="Enter password" name="psw" id="regPsw" required>
 					<button type="submit" class="registerbtn button__add-card">Register</button>
 				</div>
 				<!-- <div class="container signin">
@@ -75,13 +77,13 @@
 	<div id="logModal" class="modal">
 		<div class="modal-content">
 			<span class="close">&times;</span>
-			<form class="register-form" method="POST">
+			<form class="login-form">
 				<div class="column">
 					<h1>Sign in</h1>
 					<label for="login">Login</label>
-					<input type="text" placeholder="Enter login" name="login" id="login" required>
+					<input type="text" placeholder="Enter login" name="login" id="logLogin" required>
 					<label for="psw">Password</label>
-					<input type="password" placeholder="Enter password" name="psw" id="psw" required>
+					<input type="password" placeholder="Enter password" name="psw" id="logPsw" required>
 					<button type="submit" class="registerbtn button__add-card">Log in</button>
 				</div>
 				<!-- <div class="container signin">

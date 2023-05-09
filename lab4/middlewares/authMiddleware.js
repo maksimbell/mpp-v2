@@ -10,7 +10,7 @@ export default function (req, res, next) {
         let token = null
         if (req.headers.cookie) {
             token = req.headers.cookie.substring(4)
-            const data = jwt.verify(token, 'secret')
+            const data = jwt.verify(token, 'SECRET_KEY')
             req.user = data
             next()
         }
@@ -18,8 +18,6 @@ export default function (req, res, next) {
             res.status(401).json({
                 message: 'You are not logged in, please log in to your account' 
             })
-            // res.redirect(401, '/login')
-            // res.status(401).location('/login').end();
         }
 
     } catch (e) {
