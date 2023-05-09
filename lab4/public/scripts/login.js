@@ -1,5 +1,6 @@
 const logForm = document.querySelector('.login-form')
-socket.on('auth:login', loginHandler)
+console.log(logForm)
+// socket.on('auth:login', loginHandler)
 
 logForm.addEventListener('submit', (e) => {
     e.preventDefault()
@@ -8,22 +9,35 @@ logForm.addEventListener('submit', (e) => {
 
 function login(e) {
 
-    const user = {
-        login: e.target.logLogin.value,
-        password: e.target.logPsw.value
-    }
-    
-    console.log('sent')
-    socket.emit('auth:login', user)
+    fetch("login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                login: e.target.login.value,
+                password: e.target.psw.value,
+            }),
+        })
+        .then(res => res.json())
+        .then(json => {
+            if (json.message) {
+                alert('400: ' + json.message)
+            } else {
+                document.cookie = "jwt=" + json.token
+                window.location.replace(window.location.origin + '/board')
+            }
+        })
+        .catch(err => console.log(err))
 }
 
 function loginHandler(token) {
     console.log('token is ready on client')
-    socket.auth = {
-        token
-    }
+    // socket.auth = {
+    //     token
+    // }
 
-    socket.emit('wtf', 'smth')
+    // socket.emit('wtf', 'smth')
     // socket.disconnect()
     // socket.socket.connect()
 }

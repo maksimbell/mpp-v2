@@ -12,9 +12,7 @@ router.use(Router.static('public'));
 router.use(Router.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
-router.get("/register", controller.getRegister)
 router.post("/register", controller.register)
-router.get("/login", controller.getLogin)
 router.post("/login", controller.login)
 
 

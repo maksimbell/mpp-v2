@@ -2,29 +2,22 @@ import jwt from 'jsonwebtoken'
 
 export default function (req, res, next) {
 
-    if (req.method === 'OPTIONS') {
-        next()
-    }
-
     try {
-        let token = null
-        if (req.headers.cookie) {
-            token = req.headers.cookie.substring(4)
-            const data = jwt.verify(token, 'SECRET_KEY')
-            req.user = data
-            next()
+        if (req.path === '/login' || req.path === '/register') {
+            return next()
         }
-        if (!token) {
-            res.status(401).json({
-                message: 'You are not logged in, please log in to your account' 
-            })
-        }
+        
+        console.log(req.headers.authorization)
+        const token = req.headers.authorization.split(' ')[1]
 
+        req.user = jwt.verify(token, 'secret')
+        next()
+        return res.status(200).json({
+            message: 'Noice'
+        })
     } catch (e) {
-        console.log(e)
-        res.status(403).json({
-            message: 'Access denied'
+        return res.status(401).json({
+            message: 'User is not authenticated'
         })
     }
-
 }

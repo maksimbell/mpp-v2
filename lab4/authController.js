@@ -63,26 +63,28 @@ const login = async (req, res) => {
                 message: `User with this login doesn't exist`
             })
         } else {
-
             const validPassword = bcrypt.compareSync(password, rows[0].passwordHash)
+
             if (validPassword) {
-                console.log(rows[0].id)
-                const token = generateToken(rows[0].id)
-                res.status(200).cookie('jwt',
-                    token, {
-                        httpOnly: true,
-                        secure: true,
-                    }).json({
-                    message: 'work'
+                const token = jwt.sign({
+                    id: rows[0].id
+                }, 'secret', {
+                    expiresIn: "1h"
+                })
+                return res.json({
+                    token
                 })
             } else {
-                res.status(400).json({
-                    message: 'Password is incorrect'
-                })
+               return res.json({
+                   message: 'Wrong password'
+               })
             }
         }
     } catch (e) {
-        console.warn(e)
+        console.log('error!')
+        res.status(400).json({
+            message: e.message
+        })
     }
 }
 

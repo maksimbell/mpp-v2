@@ -17,65 +17,78 @@ const generateToken = (id, role) => {
 }
 
 export default (io, socket) => {
-    const login = async (user) => {
-        try {
-            const {
-                login,
-                password
-            } = user
-
-            console.log(user)
-            let query = `select * from user where login = '${login}'`
-            let [rows, fields] = await promisePool.query(query)
-
-            if (rows.length > 0) {
-
-                const validPassword = bcrypt.compareSync(password, rows[0].passwordHash)
-                if (validPassword) {
-                    console.log(rows[0].id)
-                    // const token = generateToken(rows[0].id)
-                    const token = 'secretToken'
-                    socket.emit('auth:login', token)
-                    console.log('success')
-                } else {
-                    console.log('user not found')
-                }
-            }
-        } catch (e) {
-            console.warn(e)
-        }
-    }
-
-    const register = async (user) => {
+    const register = async (req, res) => {
         try {
 
             const {
                 login,
                 password
-            } = user
+            } = req.body
+
             let query = `select * from user where login = '${login}'`
+
             let [rows, fields] = await promisePool.query(query)
             console.log(rows.length)
 
             if (rows.length == 0) {
                 let hashPassword = bcrypt.hashSync(password, 5)
+
                 query = `INSERT INTO user(passwordHash, login) VALUES ('${hashPassword}', '${login}')`;
 
                 [rows, fields] = await promisePool.query(query)
 
-                // res.status(200).json({
-                //     message: 'work'
-                // })
+                res.status(200).json({
+                    message: 'work'
+                })
             } else {
-                // res.status(400).json({
-                //     message: 'User with this login already exist'
-                // })
+                res.status(400).json({
+                    message: 'User with this login already exist'
+                })
             }
 
         } catch (e) {
             console.warn(e)
         }
-        console.log('registered!')
+    }
+
+    const login = async (req, res) => {
+        try {
+
+            const {
+                login,
+                password
+            } = req.body
+
+            let query = `select * from user where login = '${login}'`
+
+            let [rows, fields] = await promisePool.query(query)
+
+            if (rows.length == 0) {
+                res.status(400).json({
+                    message: `User with this login doesn't exist`
+                })
+            } else {
+
+                const validPassword = bcrypt.compareSync(password, rows[0].passwordHash)
+                if (validPassword) {
+                    console.log(rows[0].id)
+                    const token = generateToken(rows[0].id)
+                    res.status(200).cookie('jwt',
+                        token, {
+                            httpOnly: true,
+                            secure: true,
+                        }).json({
+                        msg: 'work'
+                    })
+                } else {
+                    res.status(400).json({
+                        message: 'Password is incorrect'
+                    })
+                }
+            }
+        } catch (e) {
+            console.warn(e)
+        }
     }
 
     socket.on('auth:register', register)

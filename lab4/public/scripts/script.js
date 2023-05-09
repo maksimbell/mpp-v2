@@ -12,6 +12,24 @@ function getBoard() {
     socket.emit('board:get')
 }
 
+function tryAccess() {
+    fetch('/attempt', {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + document.cookie.split('; ')
+                .find((row) => row.startsWith('jwt='))?.split('=')[1]
+        }
+    }).then(res => {
+        // alert(res.status)
+        if (res.status === 401) {
+            window.location.href = window.location.origin + '/login';
+        } else {
+            getBoard()
+        }
+    })
+}
+
 function addCard(e) {
     const id = e.target.id.slice(4, e.target.id.length)
 
@@ -162,7 +180,9 @@ function deleteColumnCallback(e) {
 }
 
 try {
-    getBoard()
+    tryAccess()
+    // if (tryAccess())
+    // getBoard()
 } catch (err) {
     console.log(err)
 }

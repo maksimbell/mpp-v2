@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Board</title>
+    <link rel="stylesheet" href="styles/register.css" />
+    <script src="https://kit.fontawesome.com/7af8546ce5.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <script src="/scripts/register.js" defer></script>
+    <header class="header">
+        <nav class="nav header-nav">
+            <ul class="nav__list nav-menu header-main">
+                <li class="nav-menu__item header-main-nav__item">
+                    <a href="/board" class="nav-menu__link header-main-nav__link header__link">
+                        <i class="fas fa-home"></i>
+                        <span class="hidden-text">Home</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="zentask nav__logo">
+                <span class="zentask__text">ZenTask</span>
+            </div>
+        </nav>
+    </header>
+
+    <main class="columns">
+        <form class="register-form" method="POST">
+            <div class="column">
+                <h1>Sign up</h1>
+                <label for="login">Login</label>
+                <input type="text" placeholder="Enter login" name="login" id="login" required>
+                <label for="psw">Password</label>
+                <input type="password" placeholder="Enter password" name="psw" id="psw" required>
+                <button type="submit" class="registerbtn button__add-card">Register</button>
+            </div>
+            <div class="container signin">
+                <p>Already have an account? <a href="/login">Sign in</a>.</p>
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>
