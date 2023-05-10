@@ -78,7 +78,7 @@ app.use(
     })
 )
 
-// app.use('/', authRouter)
+app.use('/', authRouter)
 
 app.get('/board', (req, res) => {
     res.sendFile(path.resolve(path.dirname("."), 'views', 'pages', 'board.html'))
@@ -92,6 +92,6 @@ app.get('/register', authMiddleware, (req, res) => {
     res.sendFile(path.resolve(path.dirname("."), 'views', 'pages', 'register.html'))
 });
 
-// app.get('/attempt', authMiddleware, () => console.log('auth attempt'))
+app.get('/attempt', authMiddleware, () => console.log('auth attempt'))
 
 server.listen(port, () => console.log(`Listening on ${port}`))

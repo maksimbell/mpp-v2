@@ -53,7 +53,7 @@ function tryAccess() {
         headers: {
             "Content-Type": "application/json",
             'Authorization': 'Bearer ' + document.cookie.split('; ')
-                .find((row) => row.startsWith('jwt=')).split('=')[1] //???
+                .find((row) => row.startsWith('jwt='))?.split('=')[1] //???
         }
     }).then(res => {
         if (res.status === 401) {
@@ -282,9 +282,8 @@ function deleteColumnCallback(e) {
 }
 
 try {
-    // tryAccess()
-    // if (tryAccess())
-    getBoard()
+    tryAccess()
+    // getBoard()
 } catch (err) {
     console.log(err)
 }
